@@ -1,5 +1,5 @@
 # final stage
-FROM php:7.4.28-fpm-alpine3.15
+FROM php:7.4.28-fpm-alpine3.14
 
 RUN apk -u add nginx wkhtmltopdf
 
