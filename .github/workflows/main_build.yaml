@@ -6,6 +6,8 @@ jobs:
   build-image:
     name: Build and push Docker image
     runs-on: ubuntu-latest
+    env:
+      GHCR_PAT: ${{secrets.GHCR_PAT}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -13,16 +15,18 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Add SHORT_SHA env property with commit short sha
         run: echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
-      - name: Set up docker authentication
-        run: docker login ghcr.io -u USERNAME -p $GITHUB_TOKEN
-      - name: Build image
-        run: |
-          docker build \
-            -f Dockerfile \
-            -t ghcr.io/digiblink/alpine-nginx-php74-pdf:latest \
-            -t ghcr.io/digiblink/alpine-nginx-php74-pdf:$SHORT_SHA \
-            .
-      - name: Push latest image to GHCR
-        run: docker push ghcr.io/digiblink/alpine-nginx-php74-pdf:latest
-      - name: Push SHORT_SHA image to GHCR
-        run: docker push ghcr.io/digiblink/alpine-nginx-php74-pdf:$SHORT_SHA
+      - name: Login to Github Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ghcr.io/digiblink/alpine-nginx-php74-pdf:latest
+            ghcr.io/digiblink/alpine-nginx-php74-pdf:$SHORT_SHA
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
