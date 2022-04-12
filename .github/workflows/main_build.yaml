@@ -17,16 +17,16 @@ jobs:
         run: echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
       - name: Set up docker authentication
         run: docker login ghcr.io -u USERNAME -p $GHCR_PAT
-      - name: Pull image
-        run: docker pull ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest
+#      - name: Pull image
+#        run: docker pull ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest
       - name: Build image
         run: |
           docker build \
             -f Dockerfile \
             -t ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest \
             -t ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:$SHORT_SHA \
-            --cache-from ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest \
             .
+#            --cache-from ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest \
       - name: Push latest image to GHCR
         run: docker push ghcr.io/digiblink/alpine-nginx-php74-pdf/alpine-nginx-php74-pdf:latest
       - name: Push SHORT_SHA image to GHCR
