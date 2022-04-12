@@ -16,7 +16,7 @@ jobs:
       - name: Add SHORT_SHA env property with commit short sha
         run: echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
       - name: Set up docker authentication
-        run: docker login ghcr.io -u USERNAME -p $GHCR_PAT
+        run: echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
       - name: Build image
         run: |
           docker build \
