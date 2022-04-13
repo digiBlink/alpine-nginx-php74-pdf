@@ -20,10 +20,9 @@ jobs:
           images: |
             ghcr.io/digiblink/alpine-nginx-php74-pdf
           tags: |
-            type=ref,event=branch
             type=sha,prefix=
           flavor: |
-            latest=auto
+            latest=true
             prefix=
             suffix=
           labels: |
