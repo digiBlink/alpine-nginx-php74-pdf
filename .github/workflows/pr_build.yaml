@@ -18,10 +18,10 @@ jobs:
           images: |
             ghcr.io/digiblink/alpine-nginx-php74-pdf
           tags: |
-            type=sha,prefix=
+            type=sha,prefix=pr-
           flavor: |
             latest=false
-            prefix=test
+            prefix=
             suffix=
           labels: |
             org.opencontainers.image.vendor=digiBlink
