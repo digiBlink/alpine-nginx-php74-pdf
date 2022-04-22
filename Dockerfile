@@ -7,8 +7,7 @@ LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx,
 RUN apk -u add nginx wkhtmltopdf
 
 RUN docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install phalcon
+    && docker-php-ext-install opcache
 
 RUN { \
         echo 'opcache.memory_consumption=128'; \
@@ -18,6 +17,31 @@ RUN { \
         echo 'opcache.fast_shutdown=1'; \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/php-opocache-cfg.ini
+
+# phalcon version setting
+ARG PSR_VERSION=1.2.0
+ARG PHALCON_VERSION=4.1.3
+ARG PHALCON_EXT_PATH=php7/64bits
+
+RUN set -xe && \
+   # install PSR
+   curl -LO https://github.com/jbboehr/php-psr/archive/v${PSR_VERSION}.tar.gz && \
+   tar xzf ${PWD}/v${PSR_VERSION}.tar.gz && \
+   # install Phalcon
+   curl -LO https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
+   tar xzf ${PWD}/v${PHALCON_VERSION}.tar.gz && \
+   docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) \
+       ${PWD}/php-psr-${PSR_VERSION} \
+       ${PWD}/cphalcon-${PHALCON_VERSION}/build/${PHALCON_EXT_PATH} \
+   && \
+   # remove tmp file
+   rm -r \
+       ${PWD}/v${PSR_VERSION}.tar.gz \
+       ${PWD}/php-psr-${PSR_VERSION} \
+       ${PWD}/v${PHALCON_VERSION}.tar.gz \
+       ${PWD}/cphalcon-${PHALCON_VERSION} \
+   && \
+   php -m
 
 ENV DB_HOST="" \
     DB_PORT="3306" \
