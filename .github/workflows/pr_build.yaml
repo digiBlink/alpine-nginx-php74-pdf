@@ -1,8 +1,8 @@
-name: PR CI Image Builds
+name: PR CI Image Build
 on: pull_request
 jobs:
   build-image:
-    name: Build Docker image
+    name: Build Docker and push image
     runs-on: ubuntu-latest
     env:
       GHCR_PAT: ${{secrets.GHCR_PAT}}
@@ -20,14 +20,20 @@ jobs:
           tags: |
             type=sha,prefix=
           flavor: |
-            latest=true
-            prefix=
+            latest=false
+            prefix=test
             suffix=
           labels: |
             org.opencontainers.image.vendor=digiBlink
-      - name: Build image and push to Docker Hub and GitHub Container Registry
+      - name: Login to Github Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+      - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
-          push: false
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
