@@ -1,10 +1,8 @@
-name: Main Branch CI Image Build
-on:
-  push:
-    branches: main
+name: PR CI Image Build
+on: pull_request
 jobs:
   build-image:
-    name: Build and push Docker image
+    name: Build Docker and push image
     runs-on: ubuntu-latest
     env:
       GHCR_PAT: ${{secrets.GHCR_PAT}}
@@ -20,9 +18,9 @@ jobs:
           images: |
             ghcr.io/digiblink/alpine-nginx-php74-pdf
           tags: |
-            type=sha,prefix=
+            type=sha,prefix=pr-
           flavor: |
-            latest=true
+            latest=false
             prefix=
             suffix=
           labels: |
@@ -39,5 +37,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
