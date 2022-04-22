@@ -4,10 +4,11 @@ FROM php:7.4.29-fpm-alpine3.14@sha256:08d205874f4a1942d9cd07e9f1490dbe5ea3a4cdb7
 LABEL org.opencontainers.image.source https://github.com/digiblink/alpine-nginx-php74-pdf
 LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf
 
-RUN apk -u add nginx wkhtmltopdf php7-phalcon
+RUN apk -u add nginx wkhtmltopdf
 
 RUN docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install opcache
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install phalcon
 
 RUN { \
         echo 'opcache.memory_consumption=128'; \
