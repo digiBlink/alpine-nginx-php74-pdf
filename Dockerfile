@@ -4,7 +4,8 @@ FROM php:7.4.33-fpm-alpine3.16@sha256:0aeb129a60daff2874c5c70fcd9d88cdf3015b4fb4
 LABEL org.opencontainers.image.source https://github.com/digiblink/alpine-nginx-php74-pdf
 LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf
 
-RUN apk -u add nginx wkhtmltopdf
+RUN apk -u add nginx \
+    && apk add wkhtmltopdf=0.12.6-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/main
 
 RUN docker-php-ext-install pdo_mysql \
     && docker-php-ext-install opcache
