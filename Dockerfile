@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.source="https://github.com/digiblink/alpine-nginx
 LABEL org.opencontainers.image.description="Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf"
 
 RUN apk -u add nginx \
+    && apk add icu-libs=67.1-r2 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/main \
     && apk add qt5-qtbase=5.15.3_git20210406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
     && apk add qt5-qtbase-x11=5.15.3_git20210406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
     && apk add qt5-qtsvg=5.15.3_git20200406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
