@@ -26,7 +26,7 @@ RUN { \
 
 # phalcon version setting
 ARG PSR_VERSION=1.2.0
-ARG PHALCON_VERSION=5.8.0
+ARG PHALCON_VERSION=4.1.3
 ARG PHALCON_EXT_PATH=php7/64bits
 
 RUN set -xe && \
