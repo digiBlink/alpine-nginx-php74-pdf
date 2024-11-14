@@ -6,7 +6,7 @@ Image uses:
 - Alpine Linux 3.16
 - PHP-FPM 7.4.33
 - Nginx 1.20.2-r1
-- Phalcon 5.8.0
+- Phalcon 4.1.3
 - wkhtmltopdf 0.12.6-r0
 
 Maintained by [digiBlink](https://digiblink.eu/).
