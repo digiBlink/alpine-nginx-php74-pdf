@@ -1,5 +1,5 @@
 # final stage
-FROM php:7.4.29-fpm-alpine3.14@sha256:08d205874f4a1942d9cd07e9f1490dbe5ea3a4cdb707b4e4d252ea7a3c5b8348
+FROM php:7.4.33-fpm-alpine3.16@sha256:0aeb129a60daff2874c5c70fcd9d88cdf3015b4fb4cc7c3f1a32a21e84631036
 
 LABEL org.opencontainers.image.source https://github.com/digiblink/alpine-nginx-php74-pdf
 LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf
@@ -20,7 +20,7 @@ RUN { \
 
 # phalcon version setting
 ARG PSR_VERSION=1.2.0
-ARG PHALCON_VERSION=4.1.3
+ARG PHALCON_VERSION=5.8.0
 ARG PHALCON_EXT_PATH=php7/64bits
 
 RUN set -xe && \
