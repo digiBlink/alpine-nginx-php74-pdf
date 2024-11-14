@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/digiblink/alpine-nginx-
 LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf
 
 RUN apk -u add nginx \
-    && apk add wkhtmltopdf=0.12.6-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/main
+    && apk add wkhtmltopdf=0.12.6-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community
 
 RUN docker-php-ext-install pdo_mysql \
     && docker-php-ext-install opcache
