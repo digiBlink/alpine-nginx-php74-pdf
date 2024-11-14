@@ -1,10 +1,16 @@
 # final stage
 FROM php:7.4.33-fpm-alpine3.16@sha256:0aeb129a60daff2874c5c70fcd9d88cdf3015b4fb4cc7c3f1a32a21e84631036
 
-LABEL org.opencontainers.image.source https://github.com/digiblink/alpine-nginx-php74-pdf
-LABEL org.opencontainers.image.description Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf
+LABEL org.opencontainers.image.source="https://github.com/digiblink/alpine-nginx-php74-pdf"
+LABEL org.opencontainers.image.description="Alpine Linux Docker image with Nginx, PHP-FPM and wkhtmltopdf"
 
-RUN apk -u add nginx wkhtmltopdf
+RUN apk -u add nginx \
+    && apk add icu-libs=67.1-r2 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/main \
+    && apk add qt5-qtbase=5.15.3_git20210406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
+    && apk add qt5-qtbase-x11=5.15.3_git20210406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
+    && apk add qt5-qtsvg=5.15.3_git20200406-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
+    && apk add qt5-qtwebkit=5.212.0_alpha4-r14 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community \
+    && apk add wkhtmltopdf=0.12.6-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/community
 
 RUN docker-php-ext-install pdo_mysql \
     && docker-php-ext-install opcache
@@ -20,7 +26,7 @@ RUN { \
 
 # phalcon version setting
 ARG PSR_VERSION=1.2.0
-ARG PHALCON_VERSION=5.8.0
+ARG PHALCON_VERSION=4.1.3
 ARG PHALCON_EXT_PATH=php7/64bits
 
 RUN set -xe && \
